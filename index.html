@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html class="light" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Iniciar Sesión - Deuda Control</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Iniciar Sesión - Deuda Control</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -30,148 +35,184 @@
             },
         }
     </script>
-<style>
+    <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
     </style>
 </head>
+
 <body class="bg-background-light dark:bg-background-dark font-display antialiased">
-<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
-<div class="layout-container flex h-full grow flex-col">
-<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e7ebf3] dark:border-slate-800 px-6 md:px-10 py-3 bg-white dark:bg-background-dark z-20">
-<div class="flex items-center gap-4 text-primary">
-<div class="size-6">
-<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"> //image//
-<g clip-path="url(#clip0_6_330)">
-<path clip-rule="evenodd" d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z" fill="currentColor" fill-rule="evenodd"></path>
-</g>
-<defs>
-<clipPath id="clip0_6_330"><rect fill="white" height="48" width="48"></rect></clipPath>
-</defs>
-</svg>
-</div>
-<h2 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Deuda Control</h2>
-</div>
-<div class="flex items-center gap-4">
-<span class="hidden md:inline text-sm text-slate-500 dark:text-slate-400">¿No tienes una cuenta?</span>
-<button class="flex min-w-[120px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
-<span class="truncate">Registrarse</span>
-</button>
-</div>
-</header>
-<main class="flex-1 flex flex-col md:flex-row items-stretch">
-<div class="hidden lg:flex w-1/2 flex-col justify-center items-center bg-white dark:bg-slate-900 px-12 relative overflow-hidden">
-<div class="absolute inset-0 opacity-5 pointer-events-none">
-<svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
-<defs>
-<pattern height="40" id="grid" patternUnits="userSpaceOnUse" width="40">
-<path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1"></path>
-</pattern>
-</defs>
-<rect fill="url(#grid)" height="100%" width="100%"></rect>
-</svg>
-</div>
-<div class="relative z-10 max-w-lg w-full">
-<div class="mb-10 rounded-2xl overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800 bg-slate-50">
-<div class="w-full aspect-[4/3] bg-center bg-no-repeat bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCe-wvdP895TXDBkCyu7VoBYiNbjCV7_8G37IomVmMWwU5KXZo9DWhXsNzz3GN719dYVzVxWniiy4ycTAd-MadY1UUZFokffdrhbIXE4rXGB1cmG5Esffwocwu-BozQE-eBjGpkikguyIs29ldE23LMk7TQMlnKqr6MACgjggL1-B1cs2KnEHUwkivhUycSbayLOKmoqBdvOgY8pV7ZpTO4GqjXlbFkNffA8W7qfcd49Tp_YHjcxuR_TZoSThVtkveEbQVIAb9-GKWv");'>
-</div>
-</div>
-<h1 class="text-3xl font-black text-[#0d121b] dark:text-white mb-4 leading-tight">
-                        Gestionar tus cuentas nunca fue tan sencillo.
-                    </h1>
-<p class="text-slate-600 dark:text-slate-400 text-lg leading-relaxed">
-                        Únete a nuestra comunidad. Ayudamos a equipos como el tuyo a automatizar cobros y mantener una comunicación clara con sus clientes, todo en un solo lugar.
-                    </p>
-<div class="mt-10 grid grid-cols-2 gap-8">
-<div class="flex items-start gap-4">
-
-<div>
-
-</div>
-</div>
-<div class="flex items-start gap-4">
-<span class="material-symbols-outlined text-primary bg-primary/10 p-3 rounded-xl">support_agent</span>
-<div>
-<p class="font-bold text-sm dark:text-white">Soporte 8/5</p>
-<p class="text-xs text-slate-500">Estamos para ayudarte</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="flex-1 flex flex-col justify-center items-center px-6 py-12 md:px-20 bg-background-light dark:bg-background-dark">
-<div class="w-full max-w-[440px] space-y-8">
-<div class="flex flex-col gap-3">
-<div class="inline-flex items-center gap-2 text-primary bg-primary/10 w-fit px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-<span class="material-symbols-outlined text-sm">handshake</span>
-                            Bienvenido de nuevo
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <header
+                class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e7ebf3] dark:border-slate-800 px-6 md:px-10 py-3 bg-white dark:bg-background-dark z-20">
+                <div class="flex items-center gap-4 text-primary">
+                    <div class="size-6">
+                        <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"> //image//
+                            <g clip-path="url(#clip0_6_330)">
+                                <path clip-rule="evenodd"
+                                    d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z"
+                                    fill="currentColor" fill-rule="evenodd"></path>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_6_330">
+                                    <rect fill="white" height="48" width="48"></rect>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h2 class="text-[#0d121b] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Deuda
+                        Control</h2>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="hidden md:inline text-sm text-slate-500 dark:text-slate-400">¿No tienes una
+                        cuenta?</span>
+                    <button
+                        class="flex min-w-[120px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+                        <span class="truncate">Registrarse</span>
+                    </button>
+                </div>
+            </header>
+            <main class="flex-1 flex flex-col md:flex-row items-stretch">
+                <div
+                    class="hidden lg:flex w-1/2 flex-col justify-center items-center bg-white dark:bg-slate-900 px-12 relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-5 pointer-events-none">
+                        <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <pattern height="40" id="grid" patternUnits="userSpaceOnUse" width="40">
+                                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1">
+                                    </path>
+                                </pattern>
+                            </defs>
+                            <rect fill="url(#grid)" height="100%" width="100%"></rect>
+                        </svg>
+                    </div>
+                    <div class="relative z-10 max-w-lg w-full">
+                        <div
+                            class="mb-10 rounded-2xl overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800 bg-slate-50">
+                            <div class="w-full aspect-[4/3] bg-center bg-no-repeat bg-cover"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCe-wvdP895TXDBkCyu7VoBYiNbjCV7_8G37IomVmMWwU5KXZo9DWhXsNzz3GN719dYVzVxWniiy4ycTAd-MadY1UUZFokffdrhbIXE4rXGB1cmG5Esffwocwu-BozQE-eBjGpkikguyIs29ldE23LMk7TQMlnKqr6MACgjggL1-B1cs2KnEHUwkivhUycSbayLOKmoqBdvOgY8pV7ZpTO4GqjXlbFkNffA8W7qfcd49Tp_YHjcxuR_TZoSThVtkveEbQVIAb9-GKWv");'>
+                            </div>
                         </div>
-<h2 class="text-[#0d121b] dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">
-                            ¡Qué alegría verte!
-                        </h2>
-<p class="text-slate-500 dark:text-slate-400 text-base font-normal">
-                            Ingresa tus datos para acceder a tu panel de control y seguir creciendo.
+                        <h1 class="text-3xl font-black text-[#0d121b] dark:text-white mb-4 leading-tight">
+                            Gestionar tus cuentas nunca fue tan sencillo.
+                        </h1>
+                        <p class="text-slate-600 dark:text-slate-400 text-lg leading-relaxed">
+                            Únete a nuestra comunidad. Ayudamos a equipos como el tuyo a automatizar cobros y mantener
+                            una comunicación clara con sus clientes, todo en un solo lugar.
                         </p>
-</div>
-<form class="flex flex-col gap-6">
-<div class="flex flex-col gap-2">
-<label class="text-[#0d121b] dark:text-slate-200 text-sm font-semibold leading-normal" for="email">
-                                Correo Electrónico
-                            </label>
-<input id="email" class="form-input flex w-full min-w-0 resize-none overflow-hidden rounded-xl text-[#0d121b] dark:text-white focus:outline-0 focus:ring-4 focus:ring-primary/10 border border-[#cfd7e7] dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary h-14 placeholder:text-[#4c669a] dark:placeholder:text-slate-500 p-[15px] text-base font-normal transition-all" id="email" placeholder="ejemplo@tuempresa.com" type="email"/>
-</div>
-<div class="flex flex-col gap-2">
-<label class="text-[#0d121b] dark:text-slate-200 text-sm font-semibold leading-normal" for="password">
-                                Contraseña
-                            </label>
-<div class="relative flex w-full items-stretch rounded-xl group">
-<input id="password" class="form-input flex w-full min-w-0 resize-none overflow-hidden rounded-xl text-[#0d121b] dark:text-white focus:outline-0 focus:ring-4 focus:ring-primary/10 border border-[#cfd7e7] dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary h-14 placeholder:text-[#4c669a] dark:placeholder:text-slate-500 p-[15px] text-base font-normal transition-all" id="password" placeholder="Ingresa tu contraseña" type="password"/>
-<button class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors" type="button">
-<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
-</button>
-</div>
-</div>
-<div class="flex items-center justify-between gap-2">
-<div class="flex items-center gap-2">
-<input class="rounded border-slate-300 text-primary focus:ring-primary dark:bg-slate-800 dark:border-slate-700 h-5 w-5" id="remember" type="checkbox"/>
-<label class="text-sm text-slate-600 dark:text-slate-400 cursor-pointer" for="remember">Mantener sesión iniciada</label>
-</div>
-</div>
-<div class="pt-2">
-<button id="login" class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all active:scale-[0.98]" type="submit">
-<span class="truncate">Entrar a mi cuenta</span>
-</button>
-</div>
-<div class="text-center pt-2">
-<a class="inline-flex items-center gap-2 text-primary text-sm font-bold hover:underline py-2 px-4 rounded-lg hover:bg-primary/5 transition-colors" href="#">
-<span class="material-symbols-outlined text-lg">help_outline</span>
-                                ¿Has olvidado tu contraseña? Te ayudamos a recuperarla
-                            </a>
-</div>
-</form>
-<div class="lg:hidden text-center pt-4 border-t border-slate-200 dark:border-slate-800">
-<p class="text-slate-500 text-sm">
-                            ¿Aún no eres parte? 
-                            <a class="text-primary font-bold hover:underline ml-1" href="#">Regístrate gratis</a>
-</p>
-</div>
-<div class="pt-8 border-t border-slate-200 dark:border-slate-800">
-<div class="flex flex-col items-center gap-4">
-<span class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Protección y confianza de nivel bancario</span>
-<div class="flex gap-8 opacity-40 grayscale">
-<span class="material-symbols-outlined text-2xl" title="Seguridad Verificada">verified_user</span>
-<span class="material-symbols-outlined text-2xl" title="Cobertura Global">public</span>
-<span class="material-symbols-outlined text-2xl" title="Premiado">military_tech</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-</div>
-</div>
-<script src="/JS/autenticacion.js"></script>
+                        <div class="mt-10 grid grid-cols-2 gap-8">
+                            <div class="flex items-start gap-4">
+
+                                <div>
+
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="material-symbols-outlined text-primary bg-primary/10 p-3 rounded-xl">support_agent</span>
+                                <div>
+                                    <p class="font-bold text-sm dark:text-white">Soporte 8/5</p>
+                                    <p class="text-xs text-slate-500">Estamos para ayudarte</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="flex-1 flex flex-col justify-center items-center px-6 py-12 md:px-20 bg-background-light dark:bg-background-dark">
+                    <div class="w-full max-w-[440px] space-y-8">
+                        <div class="flex flex-col gap-3">
+                            <div
+                                class="inline-flex items-center gap-2 text-primary bg-primary/10 w-fit px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                                <span class="material-symbols-outlined text-sm">handshake</span>
+                                Bienvenido de nuevo
+                            </div>
+                            <h2
+                                class="text-[#0d121b] dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">
+                                ¡Qué alegría verte!
+                            </h2>
+                            <p class="text-slate-500 dark:text-slate-400 text-base font-normal">
+                                Ingresa tus datos para acceder a tu panel de control y seguir creciendo.
+                            </p>
+                        </div>
+                        <form class="flex flex-col gap-6">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[#0d121b] dark:text-slate-200 text-sm font-semibold leading-normal"
+                                    for="email">
+                                    Correo Electrónico
+                                </label>
+                                <input id="email"
+                                    class="form-input flex w-full min-w-0 resize-none overflow-hidden rounded-xl text-[#0d121b] dark:text-white focus:outline-0 focus:ring-4 focus:ring-primary/10 border border-[#cfd7e7] dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary h-14 placeholder:text-[#4c669a] dark:placeholder:text-slate-500 p-[15px] text-base font-normal transition-all"
+                                    id="email" placeholder="ejemplo@tuempresa.com" type="email" />
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[#0d121b] dark:text-slate-200 text-sm font-semibold leading-normal"
+                                    for="password">
+                                    Contraseña
+                                </label>
+                                <div class="relative flex w-full items-stretch rounded-xl group">
+                                    <input id="password"
+                                        class="form-input flex w-full min-w-0 resize-none overflow-hidden rounded-xl text-[#0d121b] dark:text-white focus:outline-0 focus:ring-4 focus:ring-primary/10 border border-[#cfd7e7] dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary h-14 placeholder:text-[#4c669a] dark:placeholder:text-slate-500 p-[15px] text-base font-normal transition-all"
+                                        id="password" placeholder="Ingresa tu contraseña" type="password" />
+                                    <button
+                                        class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors"
+                                        type="button">
+                                        <span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between gap-2">
+                                <div class="flex items-center gap-2">
+                                    <input
+                                        class="rounded border-slate-300 text-primary focus:ring-primary dark:bg-slate-800 dark:border-slate-700 h-5 w-5"
+                                        id="remember" type="checkbox" />
+                                    <label class="text-sm text-slate-600 dark:text-slate-400 cursor-pointer"
+                                        for="remember">Mantener sesión iniciada</label>
+                                </div>
+                            </div>
+                            <div class="pt-2">
+                                <button id="login"
+                                    class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all active:scale-[0.98]"
+                                    type="submit">
+                                    <span class="truncate">Entrar a mi cuenta</span>
+                                </button>
+                            </div>
+                            <div class="text-center pt-2">
+                                <a class="inline-flex items-center gap-2 text-primary text-sm font-bold hover:underline py-2 px-4 rounded-lg hover:bg-primary/5 transition-colors"
+                                    href="#">
+                                    <span class="material-symbols-outlined text-lg">help_outline</span>
+                                    ¿Has olvidado tu contraseña? Te ayudamos a recuperarla
+                                </a>
+                            </div>
+                        </form>
+                        <div class="lg:hidden text-center pt-4 border-t border-slate-200 dark:border-slate-800">
+                            <p class="text-slate-500 text-sm">
+                                ¿Aún no eres parte?
+                                <a class="text-primary font-bold hover:underline ml-1" href="#">Regístrate gratis</a>
+                            </p>
+                        </div>
+                        <div class="pt-8 border-t border-slate-200 dark:border-slate-800">
+                            <div class="flex flex-col items-center gap-4">
+                                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Protección
+                                    y confianza de nivel bancario</span>
+                                <div class="flex gap-8 opacity-40 grayscale">
+                                    <span class="material-symbols-outlined text-2xl"
+                                        title="Seguridad Verificada">verified_user</span>
+                                    <span class="material-symbols-outlined text-2xl"
+                                        title="Cobertura Global">public</span>
+                                    <span class="material-symbols-outlined text-2xl"
+                                        title="Premiado">military_tech</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="/JS/autenticacion.js"></script>
 </body>
 
 </html>
