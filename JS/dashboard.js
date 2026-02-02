@@ -161,3 +161,4 @@ document.addEventListener("DOMContentLoaded", () => {
   if (avatarBtn) avatarBtn.addEventListener("click", () => menuUsuario.classList.toggle("hidden"));
   if (cerrarSesionBtn) cerrarSesionBtn.addEventListener("click", () => window.location.href = "index.html");
 });
+
