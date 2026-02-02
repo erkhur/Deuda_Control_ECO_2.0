@@ -152,11 +152,19 @@
 
         // GRABACIÓN DUAL
         pagosDB.push({
-            rucDNI: cuotaEnProceso.rucDNI, nombreCliente: cuotaEnProceso.nombreCliente, fechaEmision: cuotaEnProceso.fechaEmision,
-            serieComprobante: cuotaEnProceso.serieComprobante, nroComprobante: cuotaEnProceso.nroComprobante,
-            montoTotalComprobante: cuotaEnProceso.montoTotalComprobante, cuotaNro: cuotaEnProceso.cuotaNro,
-            fechaPago: fechaPago, monedaPago: cuotaEnProceso.monedaComprobante, montoPago: montoPago.toFixed(2),
-            formaPago: formaPago, numOperacion: nroOp
+            rucDNI: cuotaEnProceso.rucDNI,
+            nombreCliente: cuotaEnProceso.nombreCliente,
+            fechaEmision: cuotaEnProceso.fechaEmision,
+            serieComprobante: cuotaEnProceso.serieComprobante,
+            nroComprobante: cuotaEnProceso.nroComprobante,
+            montoTotalComprobante: cuotaEnProceso.montoTotalComprobante,
+            cuotaNro: cuotaEnProceso.cuotaNro,
+            fechaVencimiento: cuotaEnProceso.fechaVencimiento, // NUEVO CAMPO ADICIONADO
+            fechaPago: fechaPago,
+            monedaPago: cuotaEnProceso.monedaComprobante,
+            montoPago: montoPago.toFixed(2),
+            formaPago: formaPago,
+            numOperacion: nroOp
         });
         localStorage.setItem("cuotasPagadas", JSON.stringify(pagosDB));
 
@@ -172,3 +180,4 @@
         });
     }
 })();
+

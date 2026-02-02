@@ -31,16 +31,18 @@ function inicializarModuloDeudas() {
     let acumuladoCuotas = 0;
     const clientesDB = JSON.parse(localStorage.getItem("clientes")) || [];
 
-    // 1. Cargar Clientes Reales
+    // 1. Cargar Clientes Reales - FILTRADO POR ESTADO "Activo"
     listaClientes.innerHTML = "";
-    clientesDB.forEach(c => {
+    // Se adiciona el filtro .filter(c => c.estado === "Activo") solicitado
+    clientesDB.filter(c => c.estado === "Activo").forEach(c => {
         const option = document.createElement("option");
         option.value = c.razonSocial;
         listaClientes.appendChild(option);
     });
 
     inputCliente.addEventListener("input", () => {
-        const existe = clientesDB.some(c => c.razonSocial === inputCliente.value);
+        // Al validar la existencia, también verificamos que sea un cliente activo
+        const existe = clientesDB.some(c => c.razonSocial === inputCliente.value && c.estado === "Activo");
         existe ? formComprobante.classList.remove("hidden") : formComprobante.classList.add("hidden");
     });
 
