@@ -48,7 +48,7 @@
                 </div>
             </div>
             <nav class="flex-1 px-3 space-y-1">
-                <a class="flex items-center gap-3 px-4 py-3 rounded-lg active-nav" href="/dashboard.html">
+                <a id="navDashboard" class="flex items-center gap-3 px-4 py-3 rounded-lg active-nav cursor-pointer">
                     <span class="material-symbols-outlined text-[22px]">dashboard</span>
                     <span class="text-sm font-semibold">Dashboard</span>
                 </a>
@@ -103,63 +103,72 @@
             <main id="mainContent" class="p-8 max-w-7xl mx-auto w-full pb-24">
                 <div class="mb-6">
                     <h3 class="text-xl font-bold text-slate-800 dark:text-white">Métricas Clave</h3>
-                    <p class="text-sm text-slate-500">Resumen actualizado de tus cuentas por cobrar</p>
+                    <p id="txtMesActual" class="text-sm text-slate-500">Resumen actualizado de tus cuentas por cobrar mes de: </p>
                 </div>
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-4">
                         <div class="w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600">
                             <span class="material-symbols-outlined text-2xl">group</span>
                         </div>
-                        <div><p class="text-slate-500 text-sm font-medium">Total Clientes</p><h4 class="text-2xl font-bold text-slate-800 dark:text-white">1,240</h4></div>
+                        <div>
+                            <p class="text-slate-500 text-sm font-medium">Total Clientes con Deuda</p>
+                            <h4 id="cardTotalClientes" class="text-2xl font-bold text-slate-800 dark:text-white">0</h4>
+                        </div>
                     </div>
+                    
                     <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-4">
                         <div class="w-12 h-12 rounded-lg bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600">
                             <span class="material-symbols-outlined text-2xl">check_circle</span>
                         </div>
-                        <div><p class="text-slate-500 text-sm font-medium">Facturas Cobradas</p><h4 class="text-2xl font-bold text-slate-800 dark:text-white">850</h4></div>
+                        <div>
+                            <p class="text-slate-500 text-[11px] font-medium uppercase">Monto Pagado (S/. - US$)</p>
+                            <div id="cardMontoPagado" class="text-sm font-bold text-slate-800 dark:text-white">
+                                S/. 0.00 <br> US$ 0.00
+                            </div>
+                        </div>
                     </div>
+
                     <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-4">
                         <div class="w-12 h-12 rounded-lg bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-600">
                             <span class="material-symbols-outlined text-2xl">pending_actions</span>
                         </div>
-                        <div><p class="text-slate-500 text-sm font-medium">Facturas Pendientes</p><h4 class="text-2xl font-bold text-slate-800 dark:text-white">390</h4></div>
+                        <div>
+                            <p class="text-slate-500 text-[11px] font-medium uppercase">Monto Pendiente (S/. - US$)</p>
+                            <div id="cardMontoPendiente" class="text-sm font-bold text-slate-800 dark:text-white">
+                                S/. 0.00 <br> US$ 0.00
+                            </div>
+                        </div>
                     </div>
+
                     <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-4">
                         <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                             <span class="material-symbols-outlined text-2xl">payments</span>
                         </div>
-                        <div><p class="text-slate-500 text-sm font-medium">Monto Total</p><h4 class="text-2xl font-bold text-slate-800 dark:text-white">$45,200.00</h4></div>
+                        <div>
+                            <p class="text-slate-500 text-[11px] font-medium uppercase">Cartera Total del Mes (S/ - US$)</p>
+                            <div id="cardMontoTotalMes" class="text-sm font-bold text-slate-800 dark:text-white">
+                                S/ 0.00 <br> US$ 0.00
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-4">
+                        <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                            <span class="material-symbols-outlined text-2xl">account_balance</span>
+                        </div>
+                        <div>
+                            <p class="text-slate-500 text-[11px] font-medium uppercase">Cartera Total Acumulado (S/. - US$)</p>
+                            <div id="cardMontoTotalAcumulado" class="text-sm font-bold text-slate-800 dark:text-white">
+                                S/ 0.00 <br> US$ 0.00
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div class="lg:col-span-2 bg-white dark:bg-background-dark p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                        <div class="flex items-center justify-between mb-8">
-                            <h3 class="text-lg font-bold">Recaudación Mensual</h3>
-                            <div class="flex items-center gap-2"><span class="text-2xl font-bold text-primary">$125k</span><span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-full">+12.5%</span></div>
-                        </div>
-                        <div class="h-64 flex items-end justify-between gap-4 px-2">
-                             <div class="flex flex-col items-center flex-1 gap-3"><div class="w-full bg-primary/60 rounded-t-lg group-hover:bg-primary transition-all" style="height: 60%;"></div><span class="text-xs font-bold text-slate-400">Ene</span></div>
-                             <div class="flex flex-col items-center flex-1 gap-3"><div class="w-full bg-primary/60 rounded-t-lg group-hover:bg-primary transition-all" style="height: 90%;"></div><span class="text-xs font-bold text-slate-400">Feb</span></div>
-                             <div class="flex flex-col items-center flex-1 gap-3"><div class="w-full bg-primary/60 rounded-t-lg group-hover:bg-primary transition-all" style="height: 50%;"></div><span class="text-xs font-bold text-slate-400">Mar</span></div>
-                             <div class="flex flex-col items-center flex-1 gap-3"><div class="w-full bg-primary rounded-t-lg" style="height: 100%;"></div><span class="text-xs font-bold text-slate-400">Abr</span></div>
-                             <div class="flex flex-col items-center flex-1 gap-3"><div class="w-full bg-primary/60 rounded-t-lg group-hover:bg-primary transition-all" style="height: 40%;"></div><span class="text-xs font-bold text-slate-400">May</span></div>
-                             <div class="flex flex-col items-center flex-1 gap-3"><div class="w-full bg-primary/60 rounded-t-lg group-hover:bg-primary transition-all" style="height: 75%;"></div><span class="text-xs font-bold text-slate-400">Jun</span></div>
-                        </div>
-                    </div>
-                    <div class="bg-white dark:bg-background-dark p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
-                        <h3 class="text-lg font-bold mb-6">Estado de Deuda</h3>
-                        <div class="relative flex-1 flex items-center justify-center py-4">
-                            <svg class="w-48 h-48 transform -rotate-90">
-                                <circle class="text-slate-100 dark:text-slate-800" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" stroke-width="24"></circle>
-                                <circle class="text-primary" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" stroke-dasharray="502.4" stroke-dashoffset="140.6" stroke-linecap="round" stroke-width="24"></circle>
-                            </svg>
-                            <div class="absolute inset-0 flex flex-col items-center justify-center"><span class="text-3xl font-bold">72%</span><span class="text-[10px] uppercase font-bold text-slate-400">Cobrado</span></div>
-                        </div>
-                        <button id="btnReporteDetallado" class="mt-8 w-full py-3 bg-primary/10 text-primary font-bold text-sm rounded-lg hover:bg-primary/20 transition-all">
-                            Ver Reporte Detallado
-                        </button>
-                    </div>
                 </div>
             </main>
         </div>
@@ -174,11 +183,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-    
     <script src="./JS/dashboard.js"></script>
     <script src="./JS/deudas.js"></script>
     <script src="./JS/pagoCuotas.js"></script>
     <script src="./JS/reportes.js"></script>
+
 </body>
 </html>
-
