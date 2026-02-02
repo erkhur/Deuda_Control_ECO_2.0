@@ -10,6 +10,18 @@
                     <input id="startDate" type="date" class="form-input text-sm px-2 h-10 rounded-md border border-slate-200" />
                     <label class="text-sm text-[#4c669a] dark:text-gray-300">Hasta</label>
                     <input id="endDate" type="date" class="form-input text-sm px-2 h-10 rounded-md border border-slate-200" />
+
+                    <label class="text-sm text-[#4c669a] dark:text-gray-300">Estado</label>
+                    <select id="estadoFilter" class="form-input text-sm px-2 h-10 rounded-md border border-slate-200">
+                        <option value="">Todos</option>
+                        <option value="P">Pendiente</option>
+                        <option value="C">Pagada</option>
+                    </select>
+
+                    <label class="text-sm text-[#4c669a] dark:text-gray-300">Cliente</label>
+                    <input id="clienteFilter" list="clientsList" placeholder="Buscar cliente..." class="form-input text-sm px-2 h-10 rounded-md border border-slate-200" />
+                    <datalist id="clientsList"></datalist>
+
                     <button id="applyFilter" class="ml-2 bg-primary text-white h-10 px-4 rounded-lg text-sm font-bold">Aplicar</button>
                     <button id="clearFilter" class="ml-1 bg-white border border-slate-200 h-10 px-4 text-sm rounded-lg">Limpiar</button>
                 </div>
@@ -23,25 +35,54 @@
                 </div>
             </div>
         </div>
+        <div class="mt-4 flex items-center gap-3"></div>
+            <button id="tabResumen" class="px-4 py-2 rounded-md bg-primary text-white font-bold">Resumen</button>
+            <button id="tabDetalle" class="px-4 py-2 rounded-md bg-white border border-slate-200 text-sm">Detalle de Cuotas</button>
+        </div>
 
-        <div id="tableContainer" class="bg-white dark:bg-[#1a2130] rounded-2xl shadow-xl border border-[#e7ebf3] dark:border-gray-800 p-4">
-            <div class="overflow-x-auto">
-                <table id="clientesTable" class="min-w-full divide-y table-auto">
-                    <thead class="bg-[#f8f9fc] dark:bg-[#0f1724] text-xs uppercase font-bold text-left text-[#4c669a] dark:text-gray-300">
-                        <tr>
-                            <th class="px-4 py-3">Fecha</th>
-                            <th class="px-4 py-3">RUC/DNI</th>
-                            <th class="px-4 py-3">Teléfono</th>
-                            <th class="px-4 py-3">Email</th>
-                            <th class="px-4 py-3">Facturas</th>
-                            <th class="px-4 py-3">Cuotas</th>
-                            <th class="px-4 py-3 text-right">Monto Inicial (S/)</th>
-                            <th class="px-4 py-3 text-right">Monto Pagado (S/)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="clientesBody" class="bg-white dark:bg-[#111827] text-sm text-[#0d121b] dark:text-white">
-                        </tbody>
-                </table>
+        <div id="tableContainer" class="bg-white dark:bg-[#1a2130] rounded-2xl shadow-xl border border-[#e7ebf3] dark:border-gray-800 p-4 mt-4">
+            <div id="clientesContainer">
+                <div class="overflow-x-auto">
+                    <table id="clientesTable" class="min-w-full divide-y table-auto">
+                        <thead class="bg-[#f8f9fc] dark:bg-[#0f1724] text-xs uppercase font-bold text-left text-[#4c669a] dark:text-gray-300">
+                            <tr>
+                                <th class="px-4 py-3">Fecha</th>
+                                <th class="px-4 py-3">Razón Social</th>
+                                <th class="px-4 py-3">RUC/DNI</th>
+                                <th class="px-4 py-3">Teléfono</th>
+                                <th class="px-4 py-3">Email</th>
+                                <th class="px-4 py-3">Facturas</th>
+                                <th class="px-4 py-3">Cuotas</th>
+                                <th class="px-4 py-3 text-right">Monto Inicial (S/)</th>
+                                <th class="px-4 py-3 text-right">Monto Pagado (S/)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientesBody" class="bg-white dark:bg-[#111827] text-sm text-[#0d121b] dark:text-white"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="registroContainer" class="hidden">
+                <div class="overflow-x-auto">
+                    <table id="registroTable" class="min-w-full divide-y table-auto">
+                        <thead class="bg-[#f8f9fc] dark:bg-[#0f1724] text-xs uppercase font-bold text-left text-[#4c669a] dark:text-gray-300">
+                            <tr>
+                                <th class="px-4 py-3">Fecha Emisión</th>
+                                <th class="px-4 py-3">Razón Social</th>
+                                <th class="px-4 py-3">RUC/DNI</th>
+                                <th class="px-4 py-3">Serie</th>
+                                <th class="px-4 py-3">Nro</th>
+                                <th class="px-4 py-3">Moneda</th>
+                                <th class="px-4 py-3 text-right">Monto Total</th>
+                                <th class="px-4 py-3">Cuota Nro</th>
+                                <th class="px-4 py-3 text-right">Cuota Monto</th>
+                                <th class="px-4 py-3">Vencimiento</th>
+                                <th class="px-4 py-3">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registroBody" class="bg-white dark:bg-[#111827] text-sm text-[#0d121b] dark:text-white"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
