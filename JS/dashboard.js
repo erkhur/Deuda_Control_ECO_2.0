@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   const mainContent = document.getElementById("mainContent");
   const navDashboard = document.getElementById("navDashboard");
+  const navClientes = document.getElementById("navClientes");
+  const navDeudas = document.getElementById("navDeudas");
+  const navReportes = document.getElementById("navReportes");
 
   // --- LÓGICA DE USUARIOS Y SESIÓN ---
   const nombreEl = document.getElementById("nombreUsuario");
@@ -41,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return d.getMonth() === mesActualIdx && d.getFullYear() === anioActual;
     };
 
-    // 3. Monto Pagado (Bimoneda) del mes actual (basado en fechaVencimiento)
+    // 3. Monto Pagado (Bimoneda) del mes actual
     let pagadoSoles = 0;
     let pagadoDolares = 0;
     
@@ -77,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
       cardTotal.innerHTML = `S/ ${totalSolesMes.toFixed(2)} <br> US$ ${totalDolaresMes.toFixed(2)}`;
     }
 
-    // 6. CARTERA TOTAL ACUMULADO (Soles y US$) - NUEVA ADICIÓN
+    // 6. CARTERA TOTAL ACUMULADO (Sin validación de mes)
     let totalAcumuladoSoles = 0;
     let totalAcumuladoDolares = 0;
 
@@ -96,17 +99,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- NAVEGACIÓN DINÁMICA ---
   
+  // Opción Dashboard (Home)
   if (navDashboard) {
     navDashboard.addEventListener("click", () => {
       window.location.href = "dashboard.html"; 
     });
   }
 
-  if (document.getElementById("cardTotalClientes")) {
-    actualizarMetricasDashboard();
+  // LÓGICA DE CARGA DINÁMICA DE CLIENTES (Adicionado)
+  if (navClientes && mainContent) {
+    navClientes.addEventListener("click", async (e) => {
+      e.preventDefault();
+      document.querySelectorAll('aside nav a').forEach(el => el.classList.remove('active-nav'));
+      navClientes.classList.add('active-nav');
+      try {
+        const response = await fetch('clientes.html');
+        const text = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(text, 'text/html');
+        mainContent.innerHTML = doc.querySelector('main').innerHTML;
+
+        const scriptPrevio = document.getElementById("script-dinamico-clientes");
+        if (scriptPrevio) scriptPrevio.remove();
+
+        const scriptNuevo = document.createElement("script");
+        scriptNuevo.id = "script-dinamico-clientes";
+        scriptNuevo.src = "./JS/clientes.js?v=" + Date.now(); 
+        document.body.appendChild(scriptNuevo);
+      } catch (err) { console.error("Error al cargar clientes:", err); }
+    });
   }
 
-  const navDeudas = document.getElementById("navDeudas");
+  // LÓGICA DE CARGA DINÁMICA DE DEUDAS
   if (navDeudas && mainContent) {
     navDeudas.addEventListener("click", async (e) => {
       e.preventDefault();
@@ -130,7 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const navReportes = document.getElementById("navReportes");
+  // LÓGICA DE CARGA DINÁMICA DE REPORTES
   if (navReportes && mainContent) {
     navReportes.addEventListener("click", async (e) => {
       e.preventDefault();
@@ -154,10 +178,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // --- EVENTOS DE INTERFAZ (Sesión y Avatar) ---
   const avatarBtn = document.getElementById("avatarBtn");
   const menuUsuario = document.getElementById("menuUsuario");
   const cerrarSesionBtn = document.getElementById("cerrarSesion");
 
   if (avatarBtn) avatarBtn.addEventListener("click", () => menuUsuario.classList.toggle("hidden"));
   if (cerrarSesionBtn) cerrarSesionBtn.addEventListener("click", () => window.location.href = "index.html");
+
+  document.addEventListener("click", (e) => {
+    if (avatarBtn && !avatarBtn.contains(e.target) && menuUsuario && !menuUsuario.contains(e.target)) {
+      menuUsuario.classList.add("hidden");
+    }
+  });
+
+  // Inicialización de métricas al cargar el Dashboard
+  if (document.getElementById("cardTotalClientes")) {
+    actualizarMetricasDashboard();
+  }
 });
