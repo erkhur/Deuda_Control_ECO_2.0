@@ -34,7 +34,7 @@
             document.getElementById("modalPagarCuota").style.display = "none";
         }
 
-        // 4. BOTÓN "PAGAR" DENTRO DEL MODAL (SOLUCIÓN AL ERROR)
+        // 4. BOTÓN "PAGAR" DENTRO DEL MODAL
         if (e.target && e.target.id === "btnConfirmarPago") {
             ejecutarAccionDePago();
         }
@@ -59,33 +59,7 @@
     // BUSCADOR DE CLIENTES EN PAGO
     document.addEventListener("input", function(e) {
         if (e.target && e.target.id === "inputClientePago") {
-            const registroDB = JSON.parse(localStorage.getItem("registroCuotas")) || [];
-            const grid = document.getElementById("seccionGridPagos");
-            const tabla = document.getElementById("tablaPagosCuerpo");
-            
-            const pendientes = registroDB.filter(c => c.nombreCliente === e.target.value && c.estadoCuota === "P");
-
-            if (pendientes.length > 0) {
-                grid.classList.remove("hidden");
-                tabla.innerHTML = "";
-                pendientes.forEach(c => {
-                    const fila = `
-                        <tr class="border-b hover:bg-slate-50 transition-colors font-bold">
-                            <td class="p-3 font-bold text-slate-500">${c.fechaEmision}</td>
-                            <td class="p-3 text-blue-800 font-bold">${c.serieComprobante}-${c.nroComprobante}</td>
-                            <td class="p-3">${c.monedaComprobante}</td>
-                            <td class="p-3">${c.montoTotalComprobante}</td>
-                            <td class="p-3 text-slate-500">Cuota ${c.cuotaNro}</td>
-                            <td class="p-3 text-blue-900 font-extrabold">${c.cuotaMonto}</td>
-                            <td class="p-3 text-red-600 font-bold">${c.fechaVencimiento}</td>
-                            <td class="p-3 text-center">
-                                <button onclick="prepararFormularioPago('${c.serieComprobante}', '${c.nroComprobante}', ${c.cuotaNro})" 
-                                        class="bg-[#3b82f6] text-white px-5 py-1.5 rounded-lg text-[10px] font-bold uppercase shadow-sm">Pagar</button>
-                            </td>
-                        </tr>`;
-                    tabla.insertAdjacentHTML('beforeend', fila);
-                });
-            } else { grid.classList.add("hidden"); }
+            renderizarGridCobranzas(e.target.value);
         }
 
         // Lógica automática para Efectivo
@@ -99,10 +73,40 @@
         }
     });
 
+    // FUNCIÓN PARA RENDERIZAR EL GRID (CENTRALIZADA PARA ACTUALIZACIÓN)
+    function renderizarGridCobranzas(nombreCliente) {
+        const registroDB = JSON.parse(localStorage.getItem("registroCuotas")) || [];
+        const grid = document.getElementById("seccionGridPagos");
+        const tabla = document.getElementById("tablaPagosCuerpo");
+        
+        const pendientes = registroDB.filter(c => c.nombreCliente === nombreCliente && c.estadoCuota === "P");
+
+        if (pendientes.length > 0) {
+            grid.classList.remove("hidden");
+            tabla.innerHTML = "";
+            pendientes.forEach(c => {
+                const fila = `
+                    <tr class="border-b hover:bg-slate-50 transition-colors font-bold">
+                        <td class="p-3 font-bold text-slate-500">${c.fechaEmision}</td>
+                        <td class="p-3 text-blue-800 font-bold">${c.serieComprobante}-${c.nroComprobante}</td>
+                        <td class="p-3">${c.monedaComprobante}</td>
+                        <td class="p-3">${c.montoTotalComprobante}</td>
+                        <td class="p-3 text-slate-500">Cuota ${c.cuotaNro}</td>
+                        <td class="p-3 text-blue-900 font-extrabold">${c.cuotaMonto}</td>
+                        <td class="p-3 text-red-600 font-bold">${c.fechaVencimiento}</td>
+                        <td class="p-3 text-center">
+                            <button onclick="prepararFormularioPago('${c.serieComprobante}', '${c.nroComprobante}', ${c.cuotaNro})" 
+                                    class="bg-[#3b82f6] text-white px-5 py-1.5 rounded-lg text-[10px] font-bold uppercase shadow-sm">Pagar</button>
+                        </td>
+                    </tr>`;
+                tabla.insertAdjacentHTML('beforeend', fila);
+            });
+        } else { grid.classList.add("hidden"); }
+    }
+
     window.prepararFormularioPago = function(serie, numero, nro) {
         const registroDB = JSON.parse(localStorage.getItem("registroCuotas")) || [];
         
-        // VALIDACIÓN: No cuotas anteriores pendientes
         const tienePendientePrevio = registroDB.some(c => 
             c.serieComprobante === serie && c.nroComprobante === numero && c.cuotaNro < nro && c.estadoCuota === "P"
         );
@@ -114,7 +118,6 @@
 
         cuotaEnProceso = registroDB.find(c => c.serieComprobante === serie && c.nroComprobante === numero && c.cuotaNro === nro);
         
-        // POBLAR MODAL
         document.getElementById("resNombre").textContent = cuotaEnProceso.nombreCliente;
         document.getElementById("resComp").textContent = `${serie}-${numero}`;
         document.getElementById("resNro").textContent = nro;
@@ -132,7 +135,6 @@
         const nroOp = document.getElementById("pagoOperacion").value;
         const hoy = new Date().toISOString().split('T')[0];
 
-        // Validaciones Cronológicas y de Monto
         if (!fechaPago || fechaPago > hoy || fechaPago < cuotaEnProceso.fechaEmision) {
             Swal.fire("Dato Inválido", "Fecha incorrecta o menor a la de emisión", "error"); return;
         }
@@ -143,14 +145,12 @@
             Swal.fire("Dato Inválido", "Ingrese Nro de Operación", "error"); return;
         }
 
-        // Validar Unicidad de Operación
         const pagosDB = JSON.parse(localStorage.getItem("cuotasPagadas")) || [];
         if (formaPago !== "E" && pagosDB.some(p => p.formaPago === formaPago && p.numOperacion === nroOp)) {
             Swal.fire("Número de Operacion Existe", "", "error"); return;
         }
 
         // GRABACIÓN DUAL
-        // 1. Guardar registro en cuotasPagadas
         pagosDB.push({
             rucDNI: cuotaEnProceso.rucDNI, nombreCliente: cuotaEnProceso.nombreCliente, fechaEmision: cuotaEnProceso.fechaEmision,
             serieComprobante: cuotaEnProceso.serieComprobante, nroComprobante: cuotaEnProceso.nroComprobante,
@@ -160,7 +160,6 @@
         });
         localStorage.setItem("cuotasPagadas", JSON.stringify(pagosDB));
 
-        // 2. Actualizar estadoCuota a "C" en registroCuotas
         const registroDB = JSON.parse(localStorage.getItem("registroCuotas"));
         const item = registroDB.find(c => c.serieComprobante === cuotaEnProceso.serieComprobante && c.nroComprobante === cuotaEnProceso.nroComprobante && c.cuotaNro === cuotaEnProceso.cuotaNro);
         item.estadoCuota = "C";
@@ -168,8 +167,8 @@
 
         Swal.fire("Pago Exitoso", "Cuota cancelada correctamente.", "success").then(() => {
             document.getElementById("modalPagarCuota").style.display = "none";
-            // Forzar refresco del grid simulando un input
-            document.getElementById("inputClientePago").dispatchEvent(new Event('input'));
+            // ACTUALIZACIÓN DEL GRID: Refresca la tabla del cliente actual para que la cuota pagada desaparezca
+            renderizarGridCobranzas(cuotaEnProceso.nombreCliente);
         });
     }
 })();
