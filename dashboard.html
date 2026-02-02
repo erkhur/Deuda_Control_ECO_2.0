@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+<html class="light" lang="en">
 
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Deuda Control - Main Dashboard Summary</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Deuda Control - Main Dashboard Summary</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -26,243 +27,157 @@
             },
         }
     </script>
-<style>
+    <style>
         body { font-family: 'Inter', sans-serif; }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .active-nav {
-            background-color: #135bec20;
-            color: #135bec;
-            border-left: 4px solid #135bec;
-        }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .active-nav { background-color: #135bec20; color: #135bec; border-left: 4px solid #135bec; }
+        .modal { display: none; position: fixed; z-index: 50; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
     </style>
 </head>
+
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
-<div class="flex h-screen overflow-hidden">
-<!-- Sidebar Navigation -->
-<aside class="w-64 bg-white dark:bg-background-dark border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0">
-<div class="p-6 flex items-center gap-3">
-<div class="size-10 bg-primary rounded-lg flex items-center justify-center text-white">
-<span class="material-symbols-outlined text-2xl">account_balance_wallet</span>
-</div>
-<div class="flex flex-col">
-<h1 class="text-slate-900 dark:text-white text-base font-bold leading-none">Deuda Control</h1>
-<p class="text-slate-500 dark:text-slate-400 text-xs mt-1">Gestión de Cobranzas</p>
-</div>
-</div>
-<nav class="flex-1 px-3 space-y-1">
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg active-nav" href="/dashboard.html">
-<span class="material-symbols-outlined text-[22px]">dashboard</span>
-<span class="text-sm font-semibold">Dashboard</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="/clientes.html">
-<span class="material-symbols-outlined text-[22px]">group</span>
-<span class="text-sm font-medium">Clientes</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="/deudas.html">
-<span class="material-symbols-outlined text-[22px]">description</span>
-<span class="text-sm font-medium">Deudas</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="/reportes.html">
-<span class="material-symbols-outlined text-[22px]">bar_chart</span>
-<span class="text-sm font-medium">Reportes</span>
-</a>
-<div class="pt-4 pb-2 px-4">
-<p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.1em]"></p>
-</div>
-</nav>
-</aside>
-<!-- Main Content Area -->
-<div class="flex-1 flex flex-col overflow-y-auto">
-<!-- Top Navbar -->
-<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-8 flex items-center justify-between sticky top-0 z-10">
-<div class="flex items-center gap-4">
-<div class="bg-primary/10 p-2 rounded-lg text-primary lg:hidden">
-<span class="material-symbols-outlined">menu</span>
-</div>
-<h2 class="text-lg font-bold text-slate-800 dark:text-white">Dashboard Resumen</h2>
-</div>
-<div class="flex items-center gap-4">
-<!-- notifications button removed as requested -->
-<div class="h-8 w-[1px] bg-slate-200 dark:bg-slate-700 mx-1"></div>
-<div class="flex items-center gap-3 pl-2">
-  <div class="text-right hidden sm:block">
-    <p id="nombreUsuario" class="text-sm font-bold text-slate-800 dark:text-white">Usuario</p>
-    <p id="rolUsuario" class="text-[11px] font-medium text-slate-500">Usuario</p>
-  </div>
-  <div class="relative">
-  <div id="avatarBtn" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-200 dark:bg-slate-700 border-2 border-primary/20 cursor-pointer">
-    <span class="material-symbols-outlined text-slate-600 dark:text-slate-300">account_circle</span>
-  </div>
-  <!-- Menú desplegable -->
-  <div id="menuUsuario" class="absolute right-0 mt-2 w-40 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg hidden">
-    <button id="cerrarSesion" class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
-      Cerrar sesión
-    </button>
-  </div>
-</div>
+    <div class="flex h-screen overflow-hidden">
+        <aside class="w-64 bg-white dark:bg-background-dark border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0">
+            <div class="p-6 flex items-center gap-3">
+                <div class="size-10 bg-primary rounded-lg flex items-center justify-center text-white">
+                    <span class="material-symbols-outlined text-2xl">account_balance_wallet</span>
+                </div>
+                <div class="flex flex-col">
+                    <h1 class="text-slate-900 dark:text-white text-base font-bold leading-none">Deuda Control</h1>
+                    <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">Gestión de Cobranzas</p>
+                </div>
+            </div>
+            <nav class="flex-1 px-3 space-y-1">
+                <a class="flex items-center gap-3 px-4 py-3 rounded-lg active-nav" href="/dashboard.html">
+                    <span class="material-symbols-outlined text-[22px]">dashboard</span>
+                    <span class="text-sm font-semibold">Dashboard</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="/clientes.html">
+                    <span class="material-symbols-outlined text-[22px]">group</span>
+                    <span class="text-sm font-medium">Clientes</span>
+                </a>
+                <a id="navDeudas" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined text-[22px]">description</span>
+                    <span class="text-sm font-medium">Deudas</span>
+                </a>
+                <a id="navReportes" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined text-[22px]">bar_chart</span>
+                    <span class="text-sm font-medium">Reportes</span>
+                </a>
+            </nav>
+            <div class="p-4 border-t border-slate-200 dark:border-slate-800">
+                <div class="flex items-center gap-3 px-2">
+                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined text-sm">settings</span>
+                    </div>
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-400">Configuración</span>
+                </div>
+            </div>
+        </aside>
 
-</div>
+        <div class="flex-1 flex flex-col overflow-y-auto">
+            <header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-8 flex items-center justify-between sticky top-0 z-10">
+                <div class="flex items-center gap-4">
+                    <h2 class="text-lg font-bold text-slate-800 dark:text-white">Dashboard Resumen</h2>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3 pl-2">
+                        <div class="text-right hidden sm:block">
+                            <p id="nombreUsuario" class="text-sm font-bold text-slate-800 dark:text-white">Usuario</p>
+                            <p id="rolUsuario" class="text-[11px] font-medium text-slate-500">Administrador</p>
+                        </div>
+                        <div class="relative">
+                            <div id="avatarBtn" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-200 dark:bg-slate-700 border-2 border-primary/20 cursor-pointer">
+                                <span class="material-symbols-outlined text-slate-600 dark:text-slate-300">account_circle</span>
+                            </div>
+                            <div id="menuUsuario" class="absolute right-0 mt-2 w-40 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg hidden">
+                                <button id="cerrarSesion" class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                    Cerrar sesión
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
 
-</header>
-<main class="p-8 max-w-7xl mx-auto w-full pb-24">
-<!-- Summary Section Header -->
-<div class="mb-6">
-<h3 class="text-xl font-bold text-slate-800 dark:text-white">Métricas Clave</h3>
-<p class="text-sm text-slate-500">Resumen actualizado de tus cuentas por cobrar</p>
-</div>
-<!-- Metric Summary Cards -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-<!-- Total Clients Card -->
-<div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-4">
-<div class="w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600">
-<span class="material-symbols-outlined text-2xl">group</span>
-</div>
-<div>
-<p class="text-slate-500 text-sm font-medium">Total Clientes</p>
-<h4 class="text-2xl font-bold text-slate-800 dark:text-white">1,240</h4>
-</div>
-</div>
-<!-- Paid Invoices Card -->
-<div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-4">
-<div class="w-12 h-12 rounded-lg bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600">
-<span class="material-symbols-outlined text-2xl">check_circle</span>
-</div>
-<div>
-<p class="text-slate-500 text-sm font-medium">Facturas Cobradas</p>
-<h4 class="text-2xl font-bold text-slate-800 dark:text-white">850</h4>
-</div>
-</div>
-<!-- Pending Invoices Card -->
-<div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-4">
-<div class="w-12 h-12 rounded-lg bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-600">
-<span class="material-symbols-outlined text-2xl">pending_actions</span>
-</div>
-<div>
-<p class="text-slate-500 text-sm font-medium">Facturas Pendientes</p>
-<h4 class="text-2xl font-bold text-slate-800 dark:text-white">390</h4>
-</div>
-</div>
-<!-- Total Amount Card -->
-<div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-4">
-<div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-2xl">payments</span>
-</div>
-<div>
-<p class="text-slate-500 text-sm font-medium">Monto Total</p>
-<h4 class="text-2xl font-bold text-slate-800 dark:text-white">$45,200.00</h4>
-</div>
-</div>
-</div>
-<!-- Detailed Analytics Section -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-<!-- Monthly Collections Bar Chart -->
-<div class="lg:col-span-2 bg-white dark:bg-background-dark p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-<div class="flex items-center justify-between mb-8">
-<div>
-<h3 class="text-lg font-bold text-slate-800 dark:text-white">Recaudación Mensual</h3>
-<p class="text-sm text-slate-500">Comparativa de ingresos últimos 6 meses</p>
-</div>
-<div class="flex items-center gap-2">
-<span class="text-2xl font-bold text-primary">$125k</span>
-<span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-full">+12.5%</span>
-</div>
-</div>
-<!-- Bar Chart Visualization -->
-<div class="h-64 flex items-end justify-between gap-4 px-2">
-<div class="flex flex-col items-center flex-1 gap-3">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg relative group transition-all duration-300" style="height: 60%;">
-<div class="absolute bottom-0 left-0 w-full bg-primary/60 rounded-t-lg group-hover:bg-primary transition-all" style="height: 100%;"></div>
-</div>
-<span class="text-xs font-bold text-slate-400">Ene</span>
-</div>
-<div class="flex flex-col items-center flex-1 gap-3">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg relative group" style="height: 90%;">
-<div class="absolute bottom-0 left-0 w-full bg-primary/60 rounded-t-lg group-hover:bg-primary transition-all" style="height: 100%;"></div>
-</div>
-<span class="text-xs font-bold text-slate-400">Feb</span>
-</div>
-<div class="flex flex-col items-center flex-1 gap-3">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg relative group" style="height: 50%;">
-<div class="absolute bottom-0 left-0 w-full bg-primary/60 rounded-t-lg group-hover:bg-primary transition-all" style="height: 100%;"></div>
-</div>
-<span class="text-xs font-bold text-slate-400">Mar</span>
-</div>
-<div class="flex flex-col items-center flex-1 gap-3">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg relative group" style="height: 100%;">
-<div class="absolute bottom-0 left-0 w-full bg-primary rounded-t-lg" style="height: 100%;"></div>
-</div>
-<span class="text-xs font-bold text-slate-400">Abr</span>
-</div>
-<div class="flex flex-col items-center flex-1 gap-3">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg relative group" style="height: 40%;">
-<div class="absolute bottom-0 left-0 w-full bg-primary/60 rounded-t-lg group-hover:bg-primary transition-all" style="height: 100%;"></div>
-</div>
-<span class="text-xs font-bold text-slate-400">May</span>
-</div>
-<div class="flex flex-col items-center flex-1 gap-3">
-<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-lg relative group" style="height: 75%;">
-<div class="absolute bottom-0 left-0 w-full bg-primary/60 rounded-t-lg group-hover:bg-primary transition-all" style="height: 100%;"></div>
-</div>
-<span class="text-xs font-bold text-slate-400">Jun</span>
-</div>
-</div>
-</div>
-<!-- Debt Status Doughnut Chart -->
-<div class="bg-white dark:bg-background-dark p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
-<div class="mb-6">
-<h3 class="text-lg font-bold text-slate-800 dark:text-white">Estado de Deuda</h3>
-<p class="text-sm text-slate-500">Cargado vs Pendiente</p>
-</div>
-<div class="relative flex-1 flex items-center justify-center py-4">
-<!-- SVG Doughnut Representation -->
-<svg class="w-48 h-48 transform -rotate-90">
-<circle class="text-slate-100 dark:text-slate-800" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" stroke-width="24"></circle>
-<circle class="text-primary" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" stroke-dasharray="502.4" stroke-dashoffset="140.6" stroke-linecap="round" stroke-width="24"></circle>
-</svg>
-<div class="absolute inset-0 flex flex-col items-center justify-center">
-<span class="text-3xl font-bold text-slate-800 dark:text-white">72%</span>
-<span class="text-[10px] uppercase font-bold text-slate-400">Cobrado</span>
-</div>
-</div>
-<div class="space-y-4 mt-6">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-2">
-<div class="w-3 h-3 rounded-full bg-primary"></div>
-<span class="text-sm font-medium text-slate-600 dark:text-slate-400">Facturas Cobradas</span>
-</div>
-<span class="text-sm font-bold text-slate-800 dark:text-white">$32.5k</span>
-</div>
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-2">
-<div class="w-3 h-3 rounded-full bg-slate-200 dark:bg-slate-700"></div>
-<span class="text-sm font-medium text-slate-600 dark:text-slate-400">Pendiente de Cobro</span>
-</div>
-<span class="text-sm font-bold text-slate-800 dark:text-white">$12.7k</span>
-</div>
-</div>
-<button id="btnReporteDetallado" class="mt-8 w-full py-3 bg-primary/10 text-primary font-bold text-sm rounded-lg hover:bg-primary/20 transition-all">
-              Ver Reporte Detallado
-            </button>
-</div>
-</div>
-</main>
-</div>
-</div>
+            <main id="mainContent" class="p-8 max-w-7xl mx-auto w-full pb-24">
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-white">Métricas Clave</h3>
+                    <p class="text-sm text-slate-500">Resumen actualizado de tus cuentas por cobrar</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-4">
+                        <div class="w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600">
+                            <span class="material-symbols-outlined text-2xl">group</span>
+                        </div>
+                        <div><p class="text-slate-500 text-sm font-medium">Total Clientes</p><h4 class="text-2xl font-bold text-slate-800 dark:text-white">1,240</h4></div>
+                    </div>
+                    <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-4">
+                        <div class="w-12 h-12 rounded-lg bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600">
+                            <span class="material-symbols-outlined text-2xl">check_circle</span>
+                        </div>
+                        <div><p class="text-slate-500 text-sm font-medium">Facturas Cobradas</p><h4 class="text-2xl font-bold text-slate-800 dark:text-white">850</h4></div>
+                    </div>
+                    <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-4">
+                        <div class="w-12 h-12 rounded-lg bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-600">
+                            <span class="material-symbols-outlined text-2xl">pending_actions</span>
+                        </div>
+                        <div><p class="text-slate-500 text-sm font-medium">Facturas Pendientes</p><h4 class="text-2xl font-bold text-slate-800 dark:text-white">390</h4></div>
+                    </div>
+                    <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-4">
+                        <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                            <span class="material-symbols-outlined text-2xl">payments</span>
+                        </div>
+                        <div><p class="text-slate-500 text-sm font-medium">Monto Total</p><h4 class="text-2xl font-bold text-slate-800 dark:text-white">$45,200.00</h4></div>
+                    </div>
+                </div>
 
-<!-- Footer (fixed at bottom) -->
-<footer class="w-full px-6 py-4 bg-white dark:bg-background-dark border-t border-[#e7ebf3] dark:border-slate-800 text-sm text-slate-500 dark:text-slate-400 fixed bottom-0 left-0 right-0 z-40">
-  <div class="flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0">
-    <span>©2026 - Desarrollado por ECO</span>
-    <span>Av. España 2642 - Trujillo</span>
-  </div>
-</footer>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 bg-white dark:bg-background-dark p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex items-center justify-between mb-8">
+                            <h3 class="text-lg font-bold">Recaudación Mensual</h3>
+                            <div class="flex items-center gap-2"><span class="text-2xl font-bold text-primary">$125k</span><span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-full">+12.5%</span></div>
+                        </div>
+                        <div class="h-64 flex items-end justify-between gap-4 px-2">
+                             <div class="flex flex-col items-center flex-1 gap-3"><div class="w-full bg-primary/60 rounded-t-lg group-hover:bg-primary transition-all" style="height: 60%;"></div><span class="text-xs font-bold text-slate-400">Ene</span></div>
+                             <div class="flex flex-col items-center flex-1 gap-3"><div class="w-full bg-primary/60 rounded-t-lg group-hover:bg-primary transition-all" style="height: 90%;"></div><span class="text-xs font-bold text-slate-400">Feb</span></div>
+                             <div class="flex flex-col items-center flex-1 gap-3"><div class="w-full bg-primary/60 rounded-t-lg group-hover:bg-primary transition-all" style="height: 50%;"></div><span class="text-xs font-bold text-slate-400">Mar</span></div>
+                             <div class="flex flex-col items-center flex-1 gap-3"><div class="w-full bg-primary rounded-t-lg" style="height: 100%;"></div><span class="text-xs font-bold text-slate-400">Abr</span></div>
+                             <div class="flex flex-col items-center flex-1 gap-3"><div class="w-full bg-primary/60 rounded-t-lg group-hover:bg-primary transition-all" style="height: 40%;"></div><span class="text-xs font-bold text-slate-400">May</span></div>
+                             <div class="flex flex-col items-center flex-1 gap-3"><div class="w-full bg-primary/60 rounded-t-lg group-hover:bg-primary transition-all" style="height: 75%;"></div><span class="text-xs font-bold text-slate-400">Jun</span></div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-background-dark p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
+                        <h3 class="text-lg font-bold mb-6">Estado de Deuda</h3>
+                        <div class="relative flex-1 flex items-center justify-center py-4">
+                            <svg class="w-48 h-48 transform -rotate-90">
+                                <circle class="text-slate-100 dark:text-slate-800" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" stroke-width="24"></circle>
+                                <circle class="text-primary" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" stroke-dasharray="502.4" stroke-dashoffset="140.6" stroke-linecap="round" stroke-width="24"></circle>
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center"><span class="text-3xl font-bold">72%</span><span class="text-[10px] uppercase font-bold text-slate-400">Cobrado</span></div>
+                        </div>
+                        <button id="btnReporteDetallado" class="mt-8 w-full py-3 bg-primary/10 text-primary font-bold text-sm rounded-lg hover:bg-primary/20 transition-all">
+                            Ver Reporte Detallado
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
 
-<!-- Libraries for export used by the dashboard detailed report -->
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-<script src="/JS/dashboard.js"></script>
+    <footer class="w-full px-6 py-4 bg-white dark:bg-background-dark border-t border-[#e7ebf3] dark:border-slate-800 text-sm text-slate-500 dark:text-slate-400 fixed bottom-0 left-0 right-0 z-40">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0">
+            <span>©2026 - Desarrollado por ECO</span>
+            <span>Av. España 2642 - Trujillo</span>
+        </div>
+    </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    
+    <script src="./JS/dashboard.js"></script>
+    <script src="./JS/deudas.js"></script>
+    <script src="./JS/pagoCuotas.js"></script>
+    <script src="./JS/reportes.js"></script>
 </body>
 </html>

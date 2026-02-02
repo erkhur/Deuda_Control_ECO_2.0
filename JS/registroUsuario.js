@@ -1,16 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     const registroForm = document.querySelector('form');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    const toggleBtn = document.getElementById('togglePassword');
+    const toggleConfirmBtn = document.getElementById('toggleConfirmPassword');
+    const checkLength = document.getElementById('checkLength');
+    const checkSymbol = document.getElementById('checkSymbol');
 
     if (registroForm) {
         registroForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Captura de inputs (basado en el orden del HTML proporcionado)
-            const inputs = registroForm.querySelectorAll('input');
-            const nombre = inputs[0].value;
-            const email = inputs[1].value;
-            const password = inputs[2].value;
-            const confirmPassword = inputs[3].value;
+            const nombre = document.getElementById('nombre').value;
+            const email = document.getElementById('email').value;
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
 
             // --- Validaciones Senior ---
 
@@ -81,56 +85,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Toggle mostrar/ocultar contraseña (ojo)
-    const passwordInput = document.getElementById('password');
-    const toggleBtn = document.getElementById('togglePassword');
-    if (passwordInput && toggleBtn) {
-        toggleBtn.addEventListener('click', () => {
-            const icon = toggleBtn.querySelector('span.material-symbols-outlined');
-            const isPassword = passwordInput.getAttribute('type') === 'password';
-            passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
-            if (icon) icon.textContent = isPassword ? 'visibility_off' : 'visibility';
-            // Si existe el campo de confirmación y su toggle, sincronizarlos
-            if (confirmPasswordInput) {
-                confirmPasswordInput.setAttribute('type', isPassword ? 'text' : 'password');
-            }
-            if (toggleConfirmBtn) {
-                const iconC = toggleConfirmBtn.querySelector('span.material-symbols-outlined');
-                if (iconC) iconC.textContent = isPassword ? 'visibility_off' : 'visibility';
-                toggleConfirmBtn.setAttribute('aria-label', isPassword ? 'Ocultar confirmar contraseña' : 'Mostrar confirmar contraseña');
-            }
-            // Actualizar aria-label del propio botón
-            toggleBtn.setAttribute('aria-label', isPassword ? 'Ocultar contraseña' : 'Mostrar contraseña');
-        });
+    // Toggle mostrar/ocultar contraseña (sincronizados)
+    function toggleVisibility(input, btn) {
+        const icon = btn.querySelector('span.material-symbols-outlined');
+        const isPassword = input.getAttribute('type') === 'password';
+        
+        // Cambiar ambos campos simultáneamente
+        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+        confirmPasswordInput.setAttribute('type', isPassword ? 'text' : 'password');
+        
+        // Actualizar iconos de ambos botones
+        const iconP = toggleBtn.querySelector('span.material-symbols-outlined');
+        const iconC = toggleConfirmBtn.querySelector('span.material-symbols-outlined');
+        
+        if (iconP) iconP.textContent = isPassword ? 'visibility_off' : 'visibility';
+        if (iconC) iconC.textContent = isPassword ? 'visibility_off' : 'visibility';
+        
+        toggleBtn.setAttribute('aria-label', isPassword ? 'Ocultar contraseña' : 'Mostrar contraseña');
+        toggleConfirmBtn.setAttribute('aria-label', isPassword ? 'Ocultar confirmar contraseña' : 'Mostrar confirmar contraseña');
     }
 
-    // Toggle para el campo Confirmar Contraseña
-    const confirmPasswordInput = document.getElementById('confirmPassword');
-    const toggleConfirmBtn = document.getElementById('toggleConfirmPassword');
+    if (passwordInput && toggleBtn) {
+        toggleBtn.addEventListener('click', () => toggleVisibility(passwordInput, toggleBtn));
+    }
+
     if (confirmPasswordInput && toggleConfirmBtn) {
-        toggleConfirmBtn.addEventListener('click', () => {
-            const icon = toggleConfirmBtn.querySelector('span.material-symbols-outlined');
-            const isPassword = confirmPasswordInput.getAttribute('type') === 'password';
-            confirmPasswordInput.setAttribute('type', isPassword ? 'text' : 'password');
-            if (icon) icon.textContent = isPassword ? 'visibility_off' : 'visibility';
-            // Sincronizar con el campo de contraseña principal
-            if (passwordInput) {
-                passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
-            }
-            if (toggleBtn) {
-                const iconP = toggleBtn.querySelector('span.material-symbols-outlined');
-                if (iconP) iconP.textContent = isPassword ? 'visibility_off' : 'visibility';
-                toggleBtn.setAttribute('aria-label', isPassword ? 'Ocultar contraseña' : 'Mostrar contraseña');
-            }
-            // Actualizar aria-label del propio botón
-            toggleConfirmBtn.setAttribute('aria-label', isPassword ? 'Ocultar confirmar contraseña' : 'Mostrar confirmar contraseña');
-        });
+        toggleConfirmBtn.addEventListener('click', () => toggleVisibility(confirmPasswordInput, toggleConfirmBtn));
     }
 
     // Validaciones en tiempo real para los checks de contraseña
-    const checkLength = document.getElementById('checkLength');
-    const checkSymbol = document.getElementById('checkSymbol');
-
     function updatePasswordChecks() {
         if (!passwordInput) return;
         const val = passwordInput.value || '';
@@ -161,7 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (passwordInput) {
         passwordInput.addEventListener('input', updatePasswordChecks);
-        // Ejecutar al cargar para reflejar estado inicial (si hay valor)
-        updatePasswordChecks();
+        updatePasswordChecks(); // Ejecutar al cargar para reflejar estado inicial
     }
 });
