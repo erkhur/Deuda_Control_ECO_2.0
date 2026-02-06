@@ -38,20 +38,53 @@ document.addEventListener("DOMContentLoaded", () => {
     const cardClientes = document.getElementById("cardTotalClientes");
     if(cardClientes) cardClientes.textContent = clientesConDeuda.length;
 
+    function toDateKey(value) {
+      if (!value) return '';
+      const text = value.toString().trim();
+      const iso = /^(\d{4}-\d{2}-\d{2})/.exec(text);
+      if (iso) return iso[1];
+      const slash = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(text);
+      if (slash) return `${slash[3]}-${slash[2]}-${slash[1]}`;
+      const dash = /^(\d{2})-(\d{2})-(\d{4})$/.exec(text);
+      if (dash) return `${dash[3]}-${dash[2]}-${dash[1]}`;
+      const d = new Date(text);
+      if (Number.isNaN(d.getTime())) return '';
+      return d.toISOString().split('T')[0];
+    }
+
     // Helper para validar si una fecha pertenece al mes/año actual
     const esMesActual = (fechaStr) => {
-      const d = new Date(fechaStr + "T00:00:00");
+      const key = toDateKey(fechaStr);
+      if (!key) return false;
+      const d = new Date(key + "T00:00:00");
       return d.getMonth() === mesActualIdx && d.getFullYear() === anioActual;
     };
+
+    const normalizarMoneda = (m) => {
+      const v = (m || '').toString().trim().toUpperCase();
+      if (v === 'S/' || v === 'S/.' || v === 'S' || v === 'PEN') return 'S/';
+      if (v === '$' || v === 'US$' || v === 'USD') return 'US$';
+      return v || 'S/';
+    };
+
+    const parseMonto = (v) => parseFloat((v || '0').toString().replace(/,/g, '')) || 0;
+
+    const monedaPorCuota = registroCuotas.reduce((acc, r) => {
+      const key = `${r.serieComprobante || ''}|${r.nroComprobante || ''}|${r.cuotaNro || ''}`;
+      acc[key] = normalizarMoneda(r.monedaComprobante);
+      return acc;
+    }, {});
 
     // 3. Monto Pagado (Bimoneda) del mes actual
     let pagadoSoles = 0;
     let pagadoDolares = 0;
     
     cuotasPagadas.forEach(p => {
-      if(esMesActual(p.fechaVencimiento)) {
-        if(p.monedaPago === "S/.") pagadoSoles += parseFloat(p.montoPago);
-        if(p.monedaPago === "US$") pagadoDolares += parseFloat(p.montoPago);
+      if(esMesActual(p.fechaVencimiento || p.fechaPago)) {
+        const key = `${p.serieComprobante || ''}|${p.nroComprobante || ''}|${p.cuotaNro || ''}`;
+        const moneda = normalizarMoneda(p.monedaPago || p.monedaComprobante || monedaPorCuota[key]);
+        if(moneda === "S/") pagadoSoles += parseMonto(p.montoPago);
+        if(moneda === "US$") pagadoDolares += parseMonto(p.montoPago);
       }
     });
 
@@ -64,8 +97,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     registroCuotas.forEach(r => {
       if(r.estadoCuota === "P" && esMesActual(r.fechaVencimiento)) {
-        if(r.monedaComprobante === "S/.") pendienteSoles += parseFloat(r.cuotaMonto);
-        if(r.monedaComprobante === "US$") pendienteDolares += parseFloat(r.cuotaMonto);
+        const moneda = normalizarMoneda(r.monedaComprobante);
+        if(moneda === "S/") pendienteSoles += parseMonto(r.cuotaMonto);
+        if(moneda === "US$") pendienteDolares += parseMonto(r.cuotaMonto);
       }
     });
 
@@ -86,8 +120,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     registroCuotas.forEach(r => {
       if(r.estadoCuota === "P") {
-        if(r.monedaComprobante === "S/.") totalAcumuladoSoles += parseFloat(r.cuotaMonto);
-        if(r.monedaComprobante === "US$") totalAcumuladoDolares += parseFloat(r.cuotaMonto);
+        const moneda = normalizarMoneda(r.monedaComprobante);
+        if(moneda === "S/") totalAcumuladoSoles += parseMonto(r.cuotaMonto);
+        if(moneda === "US$") totalAcumuladoDolares += parseMonto(r.cuotaMonto);
       }
     });
 
